@@ -21,8 +21,6 @@ public interface IBTree<T extends Comparable<T>> {
     public void setRight(IBTree<T> right);
 
     public T getValue();
-
-    public void setValue(T value);
     
     public void addNode(IBTree<T> node);
     

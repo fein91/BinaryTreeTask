@@ -13,7 +13,7 @@ public class BTree<T extends Comparable<T>> implements IBTree<T> {
 
     private IBTree<T> left;
     private IBTree<T> right;
-    private T value;
+    private final T value;
 
     public BTree(IBTree<T> left, IBTree<T> right, T value) {
         this.left = left;
@@ -55,11 +55,6 @@ public class BTree<T extends Comparable<T>> implements IBTree<T> {
     }
 
     @Override
-    public void setValue(T value) {
-        this.value = value;
-    }
-
-    @Override
     public void addNode(IBTree<T> node) {
         if (node.getValue().compareTo(getValue()) < 0) {
             setLeft(node);
@@ -75,9 +70,22 @@ public class BTree<T extends Comparable<T>> implements IBTree<T> {
 
     @Override
     public void printChilds() {
-        System.out.println(this.left.getValue());
-        System.out.println(this.right.getValue());
+        System.out.println(getValue());
+        if (getLeft() != null) getLeft().printChilds();
+        
+        if (getRight() != null) getRight().printChilds();
     }
     
+    // 10
+    // 5 11
+    // 4 6 7 12
+
+    // 12
+    //   <tab>   5   
+    //   <tab><tab>       4
+    //   <tab><tab>       6
+    //   <tab>   11
+    //   <tab><tab>       7
+    //   <tab><tab>       13
     
 }
