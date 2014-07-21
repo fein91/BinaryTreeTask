@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package btreetask;
 
 /**
@@ -11,7 +10,12 @@ package btreetask;
  * @author otatarik
  */
 public interface IBTree<T extends Comparable<T>> {
-    
+
+    public enum BTreeType {
+
+        LEFT, RIGHT, ROOT
+    }
+
     public IBTree<T> getLeft();
 
     public void setLeft(IBTree<T> left);
@@ -21,11 +25,15 @@ public interface IBTree<T extends Comparable<T>> {
     public void setRight(IBTree<T> right);
 
     public T getValue();
-    
+
+    public BTreeType getType();
+
+  //  public void setType(BTreeType type);
+
     public void addNode(IBTree<T> node);
-    
+
     public void addNode(T value);
-    
+
     public void printChilds();
-    
+
 }

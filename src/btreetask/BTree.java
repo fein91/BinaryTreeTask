@@ -13,12 +13,19 @@ public class BTree<T extends Comparable<T>> implements IBTree<T> {
 
     private IBTree<T> left;
     private IBTree<T> right;
+    private IBTree<T> parent;
     private final T value;
+    private final BTreeType type;
 
-    public BTree(IBTree<T> left, IBTree<T> right, T value) {
+    public BTree(IBTree<T> left, IBTree<T> right, T value, BTreeType type) {
         this.left = left;
         this.right = right;
         this.value = value;
+        this.type = type;
+    }
+
+    public BTreeType getType() {
+        return type;
     }
 
     @Override
@@ -64,28 +71,37 @@ public class BTree<T extends Comparable<T>> implements IBTree<T> {
     }
 
     public void addNode(T value) {
-        IBTree<T> node = new BTree<T>(null, null, value);
-        addNode(node);
+        // addNode(node);
+        if (value.compareTo(getValue()) < 0) {
+            IBTree<T> node = new BTree<T>(null, null, value, BTreeType.LEFT);
+            setLeft(node);
+        } else {
+            IBTree<T> node = new BTree<T>(null, null, value, BTreeType.RIGHT);
+            setRight(node);
+        }
     }
 
     @Override
     public void printChilds() {
         System.out.println(getValue());
-        if (getLeft() != null) getLeft().printChilds();
-        
-        if (getRight() != null) getRight().printChilds();
+        if (getLeft() != null) {
+            getLeft().printChilds();
+        }
+
+        if (getRight() != null) {
+            getRight().printChilds();
+        }
     }
-    
+
     // 10
     // 5 11
     // 4 6 7 12
-
     // 12
-    //   <tab>   5   
-    //   <tab><tab>       4
-    //   <tab><tab>       6
-    //   <tab>   11
-    //   <tab><tab>       7
-    //   <tab><tab>       13
-    
+    //   <tab>   5 left   
+    //   <tab><tab>       4 left left
+    //   <tab><tab>       6 left right
+    //   <tab>   11 right
+    //   <tab><tab>       7 right left
+    //   <tab><tab>       13 right right
+    //   <tab><tab><tab>        15 right right right
 }
