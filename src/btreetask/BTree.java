@@ -15,15 +15,28 @@ public class BTree<T extends Comparable<T>> implements IBTree<T> {
     private IBTree<T> right;
     private IBTree<T> parent;
     private final T value;
-    private final BTreeType type;
+    private BTreeType type;
 
-    public BTree(IBTree<T> left, IBTree<T> right, T value, BTreeType type) {
+    public BTree(IBTree<T> left, IBTree<T> right, T value) {
         this.left = left;
         this.right = right;
         this.value = value;
+    }
+
+    public void setType(BTreeType type) {
         this.type = type;
     }
 
+    public IBTree<T> getParent() {
+        if (parent == null)
+            return new BTree<T>(null,null,null);
+        return parent;
+    }
+
+    public void setParent(IBTree<T> parent) {
+        this.parent = parent;
+    }
+       
     public BTreeType getType() {
         return type;
     }
@@ -46,6 +59,8 @@ public class BTree<T extends Comparable<T>> implements IBTree<T> {
     @Override
     public void setRight(IBTree<T> right) {
         if (this.right == null) {
+            right.setType(BTreeType.RIGHT);
+            right.setParent(this);
             this.right = right;
         } else {
             this.right.addNode(right);
@@ -55,6 +70,8 @@ public class BTree<T extends Comparable<T>> implements IBTree<T> {
     @Override
     public void setLeft(IBTree<T> left) {
         if (this.left == null) {
+            left.setParent(this);
+            left.setType(BTreeType.LEFT);
             this.left = left;
         } else {
             this.left.addNode(left);
@@ -70,20 +87,20 @@ public class BTree<T extends Comparable<T>> implements IBTree<T> {
         }
     }
 
-    public void addNode(T value) {
+    public synchronized void addNode(T value) {
         // addNode(node);
         if (value.compareTo(getValue()) < 0) {
-            IBTree<T> node = new BTree<T>(null, null, value, BTreeType.LEFT);
+            IBTree<T> node = new BTree<T>(null, null, value);
             setLeft(node);
         } else {
-            IBTree<T> node = new BTree<T>(null, null, value, BTreeType.RIGHT);
+            IBTree<T> node = new BTree<T>(null, null, value);
             setRight(node);
         }
     }
 
     @Override
     public void printChilds() {
-        System.out.println(getValue());
+        System.out.println(getValue()+" "+getType()+" ("+getParent().getValue()+")");
         if (getLeft() != null) {
             getLeft().printChilds();
         }

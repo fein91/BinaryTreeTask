@@ -19,6 +19,10 @@ public interface IBTree<T extends Comparable<T>> {
     public IBTree<T> getLeft();
 
     public void setLeft(IBTree<T> left);
+    
+    public IBTree<T> getParent();
+    
+    public void setParent(IBTree<T> parent);
 
     public IBTree<T> getRight();
 
@@ -28,7 +32,7 @@ public interface IBTree<T extends Comparable<T>> {
 
     public BTreeType getType();
 
-  //  public void setType(BTreeType type);
+    public void setType(BTreeType type);
 
     public void addNode(IBTree<T> node);
 
